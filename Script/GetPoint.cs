@@ -10,6 +10,7 @@ public class GetPoint : MonoBehaviour {
 	public Animation getPointAnim;
 	public AnimationClip getPointClip;
 	public GameObject pointText;
+	public GameObject containNumber;
 
 	void Start () 
 	{
@@ -22,13 +23,17 @@ public class GetPoint : MonoBehaviour {
 		pointText.SetActive(false);
 	}
 
-	void OnTriggerEnter () 
+	void OnTriggerEnter2D () 
 	{
 		getPointAnim.Play(getPointClip.name);
-		if(!pointText.GetComponent<Animation>().isPlaying) {
+		if (!pointText.GetComponent<Animation>().isPlaying)
+		{
 			pointText.SetActive(true);
-			pointText.GetComponent<TextMesh>().text = "+" + point;
+			pointText.GetComponent<TextMesh>().color = player.GetComponent<SpriteRenderer>().color;
+			pointText.GetComponent<TextMesh>().text = "+" + player.GetComponent<Player>().point;
 			pointText.GetComponent<Animation>().Play();
+			player.GetComponent<Player>().score += point + player.GetComponent<Player>().point;
+			player.GetComponent<Player>().point++;
 		}
 	}
 }
