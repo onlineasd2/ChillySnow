@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Advertisements;
 
 public class UIManager : MonoBehaviour {
 
@@ -10,12 +11,10 @@ public class UIManager : MonoBehaviour {
 	public GameObject GameOverContain;
 	public GameObject MenuContent;
 	public GameObject ground;
-
 	[Space]
 	public GameObject GroundSkinsContent;
 	public GameObject PlayerSkinsContent;
 	[Space]
-
 	public Image ReloadUIImage;
     public Text score;
     public Text bestScore;
@@ -23,21 +22,29 @@ public class UIManager : MonoBehaviour {
 	public Button btnAudio;
 	public Button btnStartGame;
 	public GameObject reloadContain;
+	public AudioClip startClip;
 	public bool secondeChance = false;
 	public bool openMenu = false;
 	float t = 1;
 	float tSecond = 0;
 	public int record;
 
+	// ADS
+    private string store_id = "3113414";
+    private string video_ad = "video";
+	// ADS
 
     void Start ()
     {
+        Advertisement.Initialize(store_id); // ADS
+
 		record = PlayerPrefs.GetInt("savescore");
 		bestScore.text = "Best: " + record.ToString();
 
 		string s = PlayerPrefs.GetString("savecolorground");
 		
 		ColorTypeConverter col = new ColorTypeConverter();
+
 		if(s != "")
 			ground.GetComponent<SpriteRenderer>().color = col.GetColorFromString(s);
 		else
@@ -49,7 +56,24 @@ public class UIManager : MonoBehaviour {
 	{
 		ShowReloadUI();
 		ScoreUpdate();
-        
+
+        if (Advertisement.isShowing) {
+			if (Time.timeScale == 1.0f)            
+				Time.timeScale = 0.0f;
+		} else {
+			if (Time.timeScale == 0.0f)
+			{
+				if (Input.GetMouseButtonDown(0))
+					Time.timeScale = 1.0f;
+				if (Input.touchCount > 0)
+                	if (Input.GetTouch(0).phase == TouchPhase.Began)
+					{
+						player.GetComponent<Player>().movingLeft = !player.GetComponent<Player>().movingLeft;
+						Time.timeScale = 1.0f;
+					}
+			}
+		}
+
 		if (secondeChance)
 			SecondChanceDelay();
 
@@ -58,9 +82,15 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
+	public void TimeGo() {
+		Time.timeScale = 1.0f;
+	}
+
 	public void ShowAds() 
 	{
-		print("Show Ads");
+		if (Advertisement.IsReady(video_ad))
+			if (Advertisement.isSupported)
+				Advertisement.Show();
 	}
 
 	void SecondChanceTimer()
@@ -134,6 +164,7 @@ public class UIManager : MonoBehaviour {
 			c.GetComponent<CustomColor>().color.b, 
 			0);
 
+
 		ColorTypeConverter col = new ColorTypeConverter();
 		string colorSaved = col.ToRGBHex(c.GetComponent<CustomColor>().color);
 		Debug.Log(colorSaved);
@@ -169,6 +200,15 @@ public class UIManager : MonoBehaviour {
 		Destroy(btnStartGame.gameObject);
 		btnMenu.gameObject.SetActive(false);
 		btnAudio.gameObject.SetActive(false);
+
+		int mute = PlayerPrefs.GetInt("savemute");
+
+		if (mute == 0)
+		{
+			GetComponent<AudioSource>().clip = startClip;
+ 			GetComponent<AudioSource>().playOnAwake = false;
+			GetComponent<AudioSource>().Play();
+		}
 	}
 
 	// Enabled btn

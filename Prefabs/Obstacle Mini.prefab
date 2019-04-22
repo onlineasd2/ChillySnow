@@ -379,6 +379,7 @@ MonoBehaviour:
   getPointClip: {fileID: 7400000, guid: 50b8ff61183145f44abf7312cf28cfbd, type: 2}
   pointText: {fileID: 1681282397878918}
   containNumber: {fileID: 1658927637466018}
+  coinClip: {fileID: 8300000, guid: 4664fd5b9407c674fbed8b57263c01e5, type: 3}
 --- !u!212 &212527416464488558
 SpriteRenderer:
   m_ObjectHideFlags: 1

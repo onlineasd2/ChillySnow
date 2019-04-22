@@ -47,14 +47,19 @@ public class Player : MonoBehaviour {
 			GetComponent<SpriteRenderer>().color.g, 
 			GetComponent<SpriteRenderer>().color.b, 
 			0);
+
     }
 
     void Update ()
     {
         if  (startGame)
         {
-            score += Time.deltaTime + .05f;
-            transform.Translate(Vector3.down * Time.deltaTime * movementSpeed);
+            if(Time.timeScale != 0.0f)
+            {
+                score += Time.deltaTime + .05f;
+                transform.Translate(Vector3.down * Time.deltaTime * movementSpeed);
+            }
+
 
             // Mouse
             if (Input.GetMouseButtonDown(0))
@@ -161,9 +166,16 @@ public class Player : MonoBehaviour {
     void Die ()
     {
         GameObject copyParticle = Instantiate(particleDead, transform.position, Quaternion.identity);
-        copyParticle.AddComponent<AudioSource>();
-        copyParticle.GetComponent<AudioSource>().clip = clipIsDead;
-        copyParticle.GetComponent<AudioSource>().Play();
+        
+		int mute = PlayerPrefs.GetInt("savemute");
+
+		if (mute == 0)
+		{
+            copyParticle.AddComponent<AudioSource>();
+            copyParticle.GetComponent<AudioSource>().playOnAwake = false;
+            copyParticle.GetComponent<AudioSource>().clip = clipIsDead;
+            copyParticle.GetComponent<AudioSource>().Play();
+		}
 
         print("Player dead");
         isDead = true;

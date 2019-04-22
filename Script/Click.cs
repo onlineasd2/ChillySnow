@@ -5,21 +5,26 @@ using UnityEngine;
 public class Click : MonoBehaviour {
 
 	public AudioClip clip;
-	public int mute = 0;
+	public int mute;
 
 	void Start ()
 	{
 		mute = PlayerPrefs.GetInt("savemute");
 	}
 
+	void Update() {
+		
+	}
+
 	public void PlaySound() {
-		mute++;
-		if (mute >= 0)
+
+		mute = PlayerPrefs.GetInt("savemute");
+
+		Debug.Log(mute);
+		if (mute == 0)
 		{
 			GetComponent<AudioSource>().clip = clip;
 			GetComponent<AudioSource>().Play();
 		}
-		if (mute > 1)
-			mute = 0;
 	}
 }

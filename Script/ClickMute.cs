@@ -34,7 +34,10 @@ public class ClickMute : MonoBehaviour {
 
 	public void SwitchIcon () {
 		
-		mute++;			
+		if(mute < 1)
+			mute++;	
+		else
+			mute = 0;
 
 		PlayerPrefs.SetInt("savemute", mute);
 	}

@@ -233,7 +233,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -368,6 +368,7 @@ MonoBehaviour:
   getPointClip: {fileID: 7400000, guid: b067924066bed2741beede684196f88b, type: 2}
   pointText: {fileID: 1852681722533320}
   containNumber: {fileID: 1441934468340132}
+  coinClip: {fileID: 8300000, guid: 4664fd5b9407c674fbed8b57263c01e5, type: 3}
 --- !u!114 &114855126791528976
 MonoBehaviour:
   m_ObjectHideFlags: 1

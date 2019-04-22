@@ -25,7 +25,7 @@ public class AdsManger : MonoBehaviour {
     {
         if (countofdeaths >= 1)
         {
-
+            
             if (Advertisement.IsReady(video_ad))
             {
                 if (Advertisement.isSupported)
