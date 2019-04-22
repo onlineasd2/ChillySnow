@@ -23,6 +23,8 @@ public class Player : MonoBehaviour {
     private float t = 0;
     public bool startGame = false;
     public int point = 0;
+
+    public int countDeath;
     void Start ()
     {
         particle.Stop();
@@ -81,11 +83,12 @@ public class Player : MonoBehaviour {
             } else {
                 rotationAngle = .20f;
             }
-
+            /* 
             // Touch screen
             if (Input.touchCount > 0)
             {
-                if (Input.GetTouch(0).phase == TouchPhase.Began) {
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Began) {
                     rotationSpeed = 1.5f;
                     movingLeft = !movingLeft;
                     rotationAngle = .20f;
@@ -94,7 +97,8 @@ public class Player : MonoBehaviour {
             
             if (Input.touchCount > 0)
             {
-                if (Input.GetTouch(0).phase == TouchPhase.Stationary) {
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Stationary) {
                     t += Time.deltaTime;
 
                     if(t > .5f) {
@@ -105,7 +109,7 @@ public class Player : MonoBehaviour {
             } else {
                 rotationAngle = .20f;
             }
-
+*/
             if (movingLeft) 
             {
                 if (transform.rotation.z > -rotationAngle)
@@ -181,6 +185,7 @@ public class Player : MonoBehaviour {
         isDead = true;
         gameObject.SetActive(false);
         shadow.gameObject.SetActive(false);
+    
 
         // Save record
         PlayerPrefs.SetInt("savescore", Mathf.RoundToInt(score));

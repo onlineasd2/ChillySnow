@@ -6,10 +6,9 @@ using UnityEngine.Advertisements;
 public class AdsManger : MonoBehaviour {
     
     public int countofdeaths;
-    private string store_id = "3006588";
+    private string store_id = "3113414";
 
     private string video_ad = "video";
-
     void Start ()
     {
         Advertisement.Initialize(store_id);
@@ -17,13 +16,14 @@ public class AdsManger : MonoBehaviour {
     }
 	
 	void Update () {
+
         ViewAds();
     }
 
     // View Ads
     void ViewAds ()
     {
-        if (countofdeaths >= 1)
+        if (countofdeaths >= 5)
         {
             
             if (Advertisement.IsReady(video_ad))
