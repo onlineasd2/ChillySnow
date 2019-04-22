@@ -20,7 +20,9 @@ public class UIManager : MonoBehaviour {
     public Text score;
     public Text bestScore;
 	public Button btnMenu;
+	public Button btnAudio;
 	public Button btnStartGame;
+	public GameObject reloadContain;
 	public bool secondeChance = false;
 	public bool openMenu = false;
 	float t = 1;
@@ -33,8 +35,13 @@ public class UIManager : MonoBehaviour {
 		record = PlayerPrefs.GetInt("savescore");
 		bestScore.text = "Best: " + record.ToString();
 
-		
 		string s = PlayerPrefs.GetString("savecolorground");
+		
+		ColorTypeConverter col = new ColorTypeConverter();
+		if(s != "")
+			ground.GetComponent<SpriteRenderer>().color = col.GetColorFromString(s);
+		else
+			ground.GetComponent<SpriteRenderer>().color = col.GetColorFromString("FFFFFF");
 
     }
 
@@ -46,8 +53,9 @@ public class UIManager : MonoBehaviour {
 		if (secondeChance)
 			SecondChanceDelay();
 
-		if (!player.activeSelf && secondeChance)
-			ReloadScene();
+		if (!player.activeSelf && secondeChance) {
+			Invoke("ReloadScene", .8f);
+		}
 	}
 
 	public void ShowAds() 
@@ -86,6 +94,7 @@ public class UIManager : MonoBehaviour {
 		tSecond += Time.deltaTime;
 		if(tSecond >= .5f)
 			player.GetComponent<Collider2D>().enabled = true;
+		
 	}
 
 		// Enabled btn
@@ -99,7 +108,6 @@ public class UIManager : MonoBehaviour {
 
 		ColorTypeConverter col = new ColorTypeConverter();
 		string colorSaved = col.ToRGBHex(ground.GetComponent<SpriteRenderer>().color);
-		Debug.Log(colorSaved);
         // Save record
         PlayerPrefs.SetString("savecolorground", colorSaved);
         PlayerPrefs.Save();
@@ -160,6 +168,7 @@ public class UIManager : MonoBehaviour {
 		player.GetComponent<Player>().startGame = true;
 		Destroy(btnStartGame.gameObject);
 		btnMenu.gameObject.SetActive(false);
+		btnAudio.gameObject.SetActive(false);
 	}
 
 	// Enabled btn
@@ -175,10 +184,11 @@ public class UIManager : MonoBehaviour {
 			player.GetComponent<Player>().shadow.gameObject.SetActive(true);
 			GameOverContain.SetActive(false);
 		}
-		
 	}
+
 	// Enabled btn
 	public void ReloadScene() {
 		SceneManager.LoadScene(0);
 	}
+	
 }
